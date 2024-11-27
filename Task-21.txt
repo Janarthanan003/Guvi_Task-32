@@ -89,35 +89,7 @@ public class windowHandle {
 		}
 }
 
-Output :
 
-Parent tab URL  : https://the-internet.herokuapp.com/windows
-Parent tab : The Internet
-Child tab : New Window
-Child tab URL : https://the-internet.herokuapp.com/windows/new
-
-
-3.Write a Selenium Java code to automate the following scenario: 
-
-• Open the URL http://the-internet.herokuapp.com/nested_frames 
-• Use only css selector or Xpath.
-• Switch to the top frame.
-• Verify that there are three frames on the page.
-• Switch to the left frame.
-• Verify that the left frame has a text "LEFT".
-• Switch back to the top frame.
-• Switch to the middle frame.
-• Verify that the middle frame has a text "MIDDLE".
-• Switch back to the top frame.
-• Switch to the right frame.
-• Verify that the right frame has a text "RIGHT".
-• Switch back to the top frame.
-• Switch to the bottom frame.
-• Verify that the bottom frame has a text "BOTTOM".
-• Switch back to the top frame.
-• Verify that the page title is "Frames".
-
-Code:
 
 import java.time.Duration;
 
@@ -229,10 +201,3 @@ public class NestedFrames {
 }
 
 
-Output:
-Test Passed: 3 frames verified.
-Test passed: Left frame verified
-Test passed: Middle frame verified
-Test passed: Right frame verified
-Test passed: Bottom frame verified
-Test Failed: Page title 'Frames' not found
