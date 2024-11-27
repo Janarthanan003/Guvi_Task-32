@@ -1,0 +1,238 @@
+
+import java.time.Duration;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class HelloPeople {
+	public static void main(String[] args) {
+		
+			ChromeDriver driver=new ChromeDriver();
+		
+			driver.manage().window().maximize();
+		
+			driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+		
+			driver.get("https://the-internet.herokuapp.com/iframe");
+	        
+	    		driver.findElement(By.xpath("//button[@class='tox-notification__dismiss tox-button tox-button--naked tox-button--icon']")).click();
+	    
+	    		WebElement iframe = driver.findElement(By.xpath("//*[@id=\"mce_0_ifr\"]"));
+        
+        		driver.switchTo().frame(iframe);
+        
+        		WebElement pTag = driver.findElement(By.tagName("p"));
+        
+        		pTag.clear();
+        
+        		pTag.sendKeys("Hello People");
+		
+		driver.close();
+		
+	}
+}
+
+
+
+
+
+import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.edge.EdgeDriver;
+
+public class windowHandle {
+	public static void main(String[] args) {
+		
+		EdgeDriver Driver=new EdgeDriver();
+		
+		Driver.manage().window().maximize();
+
+		Driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+		
+		Driver.get("https://the-internet.herokuapp.com/windows");
+		
+		String handle=Driver.getWindowHandle();
+		
+		String one=Driver.getCurrentUrl();// step 1 check url
+		
+		System.out.println("Parent tab URL  : "   + one );
+				
+		Driver.findElement(By.xpath("//*[@id=\"content\"]/div/a ")).click();
+		
+		String title = Driver.getTitle();
+		
+		System.out.println("Parent tab : " + title);
+		
+		Set<String>window=Driver.getWindowHandles();
+		
+		List<String>List=new ArrayList<String>(window);
+		
+		Driver.switchTo().window(List.get(1));
+		
+		String title2 = Driver.getTitle();
+		
+		System.out.println("Child tab : " +title2);
+		
+		String two = Driver.getCurrentUrl();
+		
+		System.out.println("Child tab URL : " + two);
+		
+		Driver.close();
+		
+		Driver.switchTo().window(one);		
+		}
+}
+
+Output :
+
+Parent tab URL  : https://the-internet.herokuapp.com/windows
+Parent tab : The Internet
+Child tab : New Window
+Child tab URL : https://the-internet.herokuapp.com/windows/new
+
+
+3.Write a Selenium Java code to automate the following scenario: 
+
+• Open the URL http://the-internet.herokuapp.com/nested_frames 
+• Use only css selector or Xpath.
+• Switch to the top frame.
+• Verify that there are three frames on the page.
+• Switch to the left frame.
+• Verify that the left frame has a text "LEFT".
+• Switch back to the top frame.
+• Switch to the middle frame.
+• Verify that the middle frame has a text "MIDDLE".
+• Switch back to the top frame.
+• Switch to the right frame.
+• Verify that the right frame has a text "RIGHT".
+• Switch back to the top frame.
+• Switch to the bottom frame.
+• Verify that the bottom frame has a text "BOTTOM".
+• Switch back to the top frame.
+• Verify that the page title is "Frames".
+
+Code:
+
+import java.time.Duration;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class NestedFrames {
+
+	public static void main(String[] args) {
+
+		 ChromeDriver driver=new ChromeDriver();
+			
+    	 driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+	
+    	 driver.manage().window().maximize();
+	
+    	 driver.get("http://the-internet.herokuapp.com/nested_frames");
+    	 
+    	 driver.switchTo().frame(driver.findElement(By.cssSelector("html > frameset > frame:nth-child(1)")));
+    	 
+    	 int frameCount = driver.findElements(By.tagName("frame")).size(); // verification of 3 frames
+    	 
+    	 if(frameCount == 3) {
+    		 System.out.println("Test Passed: 3 frames verified.");
+    	 } else {
+    		 System.out.println("Test Failed: found" + frameCount + "frames.");
+    	 }
+    	 
+    	 driver.switchTo().frame(driver.findElement(By.cssSelector("html > frameset > frame:nth-child(1)")));
+    	 
+    	 String leftFrame = driver.findElement(By.tagName("body")).getText();//Left frame verification
+    	 
+    	 if(leftFrame.equals("LEFT")) {
+    		 
+    		 System.out.println("Test passed: Left frame verified");
+    		 
+    	 } else {
+    		 
+    		 System.out.println("Left frame verification failed");
+    		 
+    	 }
+    	 
+    	 driver.switchTo().parentFrame(); //switch to top frame
+    	 
+    	 driver.switchTo().frame(driver.findElement(By.cssSelector("html > frameset > frame:nth-child(2)")));
+    	 
+    	 String middleFrame = driver.findElement(By.tagName("body")).getText();//Middle frame verification
+    	 
+    	 if(middleFrame.equals("MIDDLE")) {
+    		 
+    		 System.out.println("Test passed: Middle frame verified");
+    		 
+    	 } else {
+    		 
+    		 System.out.println("Middle frame verification failed");
+    		 
+    	 }   
+    	 
+    	 driver.switchTo().parentFrame(); //switch to top frame
+    	 
+    	 driver.switchTo().frame(driver.findElement(By.cssSelector("html > frameset > frame:nth-child(3)")));
+    	 
+    	 String rightFrame = driver.findElement(By.tagName("body")).getText();//Right frame verification
+    	 
+    	 if(rightFrame.equals("RIGHT")) {
+    		 
+    		 System.out.println("Test passed: Right frame verified");
+    		 
+    	 } else {
+    		 
+    		 System.out.println("Right frame verification failed");
+    		 
+    	 }   
+   	 
+    	 driver.switchTo().parentFrame(); //switch to top frame
+
+    	 driver.switchTo().defaultContent(); //switch to default frame
+    	 
+    	 driver.switchTo().frame(driver.findElement(By.xpath("/html/frameset/frame[2]")));
+    	 
+    	 String bottomFrame = driver.findElement(By.tagName("body")).getText();//Bottom frame verification
+    	 
+    	 if(bottomFrame.equals("BOTTOM")) {
+    		 
+    		 System.out.println("Test passed: Bottom frame verified");
+    		 
+    	 } else {
+    		 
+    		 System.out.println("Bottom frame verification failed");
+    		 
+    	 }   
+    	 
+    	 driver.switchTo().defaultContent();
+    	 
+    	 String pageTitle = driver.getTitle();//verification of page title
+    	     	 
+    	 if(pageTitle.equals("Frames")) {
+    		 
+    		 System.out.println("Test Passed: Page title is 'Frames'");
+    		 
+    	 } else {
+    		 
+    		 System.out.println("Test Failed: Page title 'Frames' not found");
+    	 }
+    	 
+    	 driver.close();
+	}
+
+}
+
+
+Output:
+Test Passed: 3 frames verified.
+Test passed: Left frame verified
+Test passed: Middle frame verified
+Test passed: Right frame verified
+Test passed: Bottom frame verified
+Test Failed: Page title 'Frames' not found
